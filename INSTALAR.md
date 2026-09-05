@@ -1,4 +1,4 @@
-# Como instalar a Luana
+# Como instalar o plugin agente
 
 > Se você recebeu esta pasta num .zip, abra o Claude Code e peça:
 > **"instala o plugin desta pasta seguindo o INSTALAR.md dele"**. O próprio
@@ -10,7 +10,7 @@
 
 1. `claude plugin marketplace add "<caminho da pasta extraída>"` (a pasta que
    contém este arquivo)
-2. `claude plugin install luana@luana`
+2. `claude plugin install agente@agente`
 3. `claude plugin install telegram@claude-plugins-official`
 4. `claude plugin list` pra confirmar.
 
@@ -23,7 +23,7 @@ uma terminar"* e entregue exatamente:
 
 ```
 /plugin marketplace add <caminho da pasta extraída>
-/plugin install luana@luana
+/plugin install agente@agente
 /plugin install telegram@claude-plugins-official
 ```
 
@@ -37,7 +37,7 @@ recomende apagar/mover o instalador.
 
 **Instalou? Siga DIRETO pro wizard — sem reiniciar nada:**
 
-- Tente a skill `/luana:setup`. Se vier **"Unknown skill"** (normal
+- Tente a skill `/agente:setup`. Se vier **"Unknown skill"** (normal
   quando o plugin foi instalado no meio da sessão), **não trave e não mande
   reiniciar**: abra `skills/setup/SKILL.md` na pasta extraída e **siga o
   wizard manualmente, passo a passo** — o resultado é idêntico (validado em
@@ -49,14 +49,14 @@ Dentro do Claude Code, um comando por vez:
 
 ```
 /plugin marketplace add <caminho da pasta extraída>
-/plugin install luana@luana
+/plugin install agente@agente
 /plugin install telegram@claude-plugins-official
 ```
 
 Depois feche e reabra o Claude Code (ou rode `/reload-plugins`) e rode:
 
 ```
-/luana:setup
+/agente:setup
 ```
 
 ## Requisitos

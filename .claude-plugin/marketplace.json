@@ -1,18 +1,18 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "luana",
-  "description": "Marketplace da Luana — agente pessoal no Telegram 100% nativo do Claude Code, sem instalar nenhum programa extra.",
+  "name": "agente",
+  "description": "Marketplace do plugin agente: agente pessoal no Telegram 100% nativo do Claude Code, sem instalar nenhum programa extra, com passo a passo para rodar 24 horas num servidor.",
   "owner": {
     "name": "Gastão Matos",
     "url": "https://github.com/drtrafego"
   },
   "plugins": [
     {
-      "name": "luana",
+      "name": "agente",
       "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/drtrafego/luana",
-      "description": "Agente pessoal no Telegram 100% nativo — sem Bun, sem hooks, sem launcher, sem painel: so o que o Claude Code ja faz de fabrica. O wizard /luana:setup da nome, personalidade e memoria ao agente e ensina a cerimonia de religar. Ideal pra aprender como funciona por dentro e pra aulas ao vivo."
+      "description": "Agente pessoal no Telegram 100% nativo: sem Bun, sem hooks, sem launcher, sem painel, so o que o Claude Code ja faz de fabrica. Voce escolhe o nome do agente. O wizard /agente:setup da nome, personalidade e memoria, e o README ensina a por no ar 24 horas com systemd."
     }
   ]
 }

@@ -1,0 +1,12 @@
+# arquivos de servico gerados pelo instalar.sh (cada instalacao gera o seu)
+*.service
+
+# credenciais e estado local, nunca versionar
+.env*
+audio.json
+*credentials*.json
+diagnostico-*.md
+
+# lixo de sistema
+.DS_Store
+Thumbs.db

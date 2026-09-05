@@ -1,10 +1,10 @@
 ---
 name: connect
-description: Conecta o agente pessoal da Luana ao Google (Drive, Gmail e Calendar) usando os connectors nativos do Claude Code, sem Google Cloud e sem OAuth na mao. Use quando a pessoa rodar /luana:connect, disser "conectar o Google", "conecta meu Gmail", "quero que ele veja meu Drive", "da acesso a minha agenda", "liga o Google Calendar nele", ou perguntar "ele consegue ver meus e-mails?", "ele consegue marcar coisa na minha agenda?". Vale tambem quando o pedido chega pelo Telegram, na conversa do proprio agente.
+description: Conecta o agente pessoal ao Google (Drive, Gmail e Calendar) usando os connectors nativos do Claude Code, sem Google Cloud e sem OAuth na mao. Use quando a pessoa rodar /agente:connect, disser "conectar o Google", "conecta meu Gmail", "quero que ele veja meu Drive", "da acesso a minha agenda", "liga o Google Calendar nele", ou perguntar "ele consegue ver meus e-mails?", "ele consegue marcar coisa na minha agenda?". Vale tambem quando o pedido chega pelo Telegram, na conversa do proprio agente.
 user-invocable: true
 ---
 
-# /luana:connect — dar ao agente acesso ao Google
+# /agente:connect — dar ao agente acesso ao Google
 
 Liga **Google Drive**, **Gmail** e **Google Calendar** no agente usando os
 **connectors nativos do Claude Code**. Não precisa criar projeto no Google

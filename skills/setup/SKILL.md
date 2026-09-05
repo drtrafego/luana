@@ -1,10 +1,10 @@
 ---
 name: setup
-description: Wizard da Luana — cria um agente pessoal no Telegram usando 100% Claude Code nativo, sem instalar nada extra (sem Bun, sem hooks, sem scripts, sem launcher, sem painel). Da nome, personalidade e memoria ao agente, cria o bot no BotFather e ensina a cerimonia de religar. Use quando a pessoa rodar /luana:setup, pedir pra "instalar meu agente", "criar meu assistente no Telegram", "criar meu agente pessoal", "montar o bot que fala comigo", ou pedir o "modo nativo", "versao leve" ou "versao de aula" da Luana.
+description: Wizard que cria um agente pessoal no Telegram usando 100% Claude Code nativo, sem instalar nada extra (sem Bun, sem hooks, sem scripts, sem launcher, sem painel). Da nome, personalidade e memoria ao agente, cria o bot no BotFather e ensina a cerimonia de religar. Use quando a pessoa rodar /agente:setup, pedir pra "instalar meu agente", "criar meu assistente no Telegram", "criar meu agente pessoal", "montar o bot que fala comigo", ou pedir o "modo nativo", "versao leve" ou "versao de aula" do plugin.
 user-invocable: true
 ---
 
-# /luana:setup — o agente 100% nativo
+# /agente:setup — o agente 100% nativo
 
 Você conduz uma pessoa (possivelmente leiga) a criar o agente pessoal dela no
 Telegram, do zero. Vá com calma, **um passo de cada vez**, explicando cada peça
@@ -325,9 +325,9 @@ pro servidor deles; no local, não sai da máquina.
 
 Também **opcional**. Pergunte: *"quer que ele enxergue seu Google — arquivos do
 Drive, e-mails do Gmail, compromissos da Agenda?"* Não quis? Siga em frente: dá
-pra ligar depois com `/luana:connect` ou pedindo *"conecta meu Google"*.
+pra ligar depois com `/agente:connect` ou pedindo *"conecta meu Google"*.
 
-Quis? Conduza pela skill `/luana:connect` (leia
+Quis? Conduza pela skill `/agente:connect` (leia
 `${CLAUDE_PLUGIN_ROOT}/skills/connect/SKILL.md`). O resumo: (1) rode `/mcp` nesta
 janela; (2) autorize **Google Drive**, **Gmail** e **Google Calendar** — um de
 cada vez, no navegador, com a conta dela, só os que ela quiser; (3) confira no
@@ -384,7 +384,7 @@ data no working-memory. Mostre a linha atualizada: é assim que ele "sabe" quand
 cobrar. (Quem fizer questão de horário fixo pode pedir uma corrente diária
 agendada — mas ela só roda com o computador ligado; o lembrete automático
 funciona sempre, por isso é o padrão.) Mencione de passagem: se um dia ele
-parecer estranho, lento ou esquecido, existe o `/luana:doctor`.
+parecer estranho, lento ou esquecido, existe o `/agente:doctor`.
 
 ## Passo 8 — A cerimônia de religar  → marca [8]
 

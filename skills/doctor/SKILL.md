@@ -1,10 +1,10 @@
 ---
 name: doctor
-description: Diagnostico e faxina de memoria do agente pessoal criado pela Luana. Confere se os arquivos e as secoes vitais do agente estao no lugar, mede e arruma a bagunca acumulada na memoria (redundancia, contradicao, arquivos inchados) sempre perguntando ao dono antes de mudar, e gera um relatorio tecnico sem nenhum dado pessoal pra pedir socorro a quem entregou o plugin. Use quando a pessoa rodar /luana:doctor, ou disser "meu agente nao esta funcionando", "ele esta estranho", "ele esta lento", "ele esta esquecendo das coisas", "roda o diagnostico", "faz um diagnostico do agente", "a memoria dele esta baguncada", "arruma a memoria dele", "limpa a memoria dele". Vale tambem quando o pedido chega PELO TELEGRAM, na conversa do proprio agente ("roda seu diagnostico", "faz um check-up em voce").
+description: Diagnostico e faxina de memoria do agente pessoal criado por este plugin. Confere se os arquivos e as secoes vitais do agente estao no lugar, mede e arruma a bagunca acumulada na memoria (redundancia, contradicao, arquivos inchados) sempre perguntando ao dono antes de mudar, e gera um relatorio tecnico sem nenhum dado pessoal pra pedir socorro a quem entregou o plugin. Use quando a pessoa rodar /agente:doctor, ou disser "meu agente nao esta funcionando", "ele esta estranho", "ele esta lento", "ele esta esquecendo das coisas", "roda o diagnostico", "faz um diagnostico do agente", "a memoria dele esta baguncada", "arruma a memoria dele", "limpa a memoria dele". Vale tambem quando o pedido chega PELO TELEGRAM, na conversa do proprio agente ("roda seu diagnostico", "faz um check-up em voce").
 user-invocable: true
 ---
 
-# /luana:doctor — check-up do agente
+# /agente:doctor — check-up do agente
 
 Você faz um check-up completo do agente pessoal desta pasta: confere se ele
 está inteiro, arruma a memória bagunçada **junto com o dono** e, no fim, gera um
@@ -113,7 +113,7 @@ padrão (ele avisa honesto que não escuta e pede por texto). Existindo, leia o
   revogada — vale criar uma nova antes de qualquer outra coisa.
 - **`local`** — o `transcrever.py` está na pasta e o `python --version`
   responde? Faltou o script, recrie rodando só o **Passo 5a** do
-  `/luana:setup`; a biblioteca é que falhou, o conserto é
+  `/agente:setup`; a biblioteca é que falhou, o conserto é
   `pip install faster-whisper` (com autorização do dono).
 - **`off`** — ✅, está desligado de propósito.
 
