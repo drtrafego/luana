@@ -16,10 +16,9 @@
 
 **Degrau 2 — se QUALQUER comando for bloqueado por permissão** (o Claude Code
 trata mexer na própria configuração como ação sensível; acontece em muitas
-máquinas e é normal): **não tente de novo, não explique arquitetura de
-segurança, não desista.** Diga apenas: *"essa parte o Claude Code exige que
-venha de você — cola estas 3 linhas aqui no chat, UMA por vez, esperando cada
-uma terminar"* e entregue exatamente:
+máquinas, é normal, e é uma proteção real, não um obstáculo pra contornar):
+**explique em uma frase por que foi bloqueado**, e peça pro dono digitar ele
+mesmo, direto no chat, um comando de cada vez, esperando cada um terminar:
 
 ```
 /plugin marketplace add <caminho da pasta extraída>
@@ -27,9 +26,11 @@ uma terminar"* e entregue exatamente:
 /plugin install telegram@claude-plugins-official
 ```
 
-Comando de barra digitado pelo dono no chat **sempre funciona** — não passa
-por permissão nem hook. Depois confirme com `claude plugin list` (só leitura,
-você pode rodar) e siga em frente.
+Comando de barra digitado pelo próprio dono no chat é uma ação DELE, não sua,
+e por isso passa onde a mesma ação vinda de você seria bloqueada — não é um
+jeito de contornar a permissão, é o modelo de permissão funcionando como
+deveria. Depois confirme com `claude plugin list` (só leitura, você pode
+rodar) e siga em frente.
 
 **Onde o zip foi extraído NÃO importa.** Se estiver dentro da pasta que vai
 ser do agente, NÃO mova nada agora — instale dali e, só no FIM do setup,
