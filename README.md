@@ -445,9 +445,33 @@ sudo chmod 600 /home/<nome>/.claude/channels/telegram/.env
 
 **O que faz:** ensina o systemd a manter o agente vivo.
 
-**Comando:** crie `/etc/systemd/system/<nome>.service`, trocando os
-placeholders. Se você usou o `instalar.sh`, o arquivo já está gerado: confira e
-copie.
+**Comando:** crie `/etc/systemd/system/<nome>.service` e o wrapper que ele
+chama, trocando os placeholders. Se você usou o `instalar.sh`, os dois arquivos
+já estão gerados: confira e copie.
+
+⚠️ **O `ExecStart` não chama o `claude` direto: chama um wrapper.** Se ele
+chamar `claude --continue` direto no primeiro boot, sem nenhuma conversa
+gravada ainda, o Claude sai com "No conversation found to continue" e, com
+`Restart=always`, isso vira um laço de reinício antes mesmo da primeira
+conversa acontecer. O wrapper só passa `--continue` quando já existe um
+`.jsonl` na pasta do projeto.
+
+`/opt/agentes/<nome>/iniciar_<nome>.sh`:
+
+```bash
+#!/usr/bin/env bash
+PROJ="$HOME/.claude/projects/-opt-agentes-<nome>"
+CONT=""
+ls "$PROJ"/*.jsonl >/dev/null 2>&1 && CONT="--continue"
+
+exec /usr/bin/script -qfec \
+  "/usr/local/bin/claude $CONT --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions" \
+  "$HOME/<nome>-tty.log"
+```
+
+```bash
+chmod +x /opt/agentes/<nome>/iniciar_<nome>.sh
+```
 
 ```ini
 [Unit]
@@ -459,7 +483,7 @@ Wants=network-online.target
 Type=simple
 User=<nome>
 WorkingDirectory=/opt/agentes/<nome>
-ExecStart=/usr/bin/script -qfec "/usr/local/bin/claude --continue --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions" /home/<nome>/<nome>-tty.log
+ExecStart=/opt/agentes/<nome>/iniciar_<nome>.sh
 Restart=always
 RestartSec=10
 Environment=HOME=/home/<nome>
