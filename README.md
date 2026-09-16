@@ -382,7 +382,18 @@ Faça esta parte depois que as três provas do Passo 7 passaram.
 
 **O que faz:** cria uma conta dedicada só para o agente.
 
-**Isto não é formalidade, e é o passo de segurança do manual.** No Passo 9 o
+**Isto não é formalidade, e é o passo de segurança do manual.** Tem uma
+segunda razão, menos óbvia: usuário separado dá `$HOME` separado, e é o
+`$HOME` que decide duas coisas que colidem em silêncio se dois agentes
+dividirem o mesmo login — a pasta de configuração do canal do Telegram
+(`~/.claude/channels/telegram`, com o token e o pareamento de CADA bot) e o
+login do próprio Claude Code (`~/.claude/.credentials.json`, cujo refresh
+token rotaciona e derruba QUALQUER OUTRO agente que esteja usando o mesmo
+arquivo). Pule este passo achando que é só sobre segurança, e o segundo
+agente que você instalar nessa máquina compartilhando usuário vai ficar mudo
+sem erro nenhum explicando por quê.
+
+No Passo 9 o
 agente roda com `--dangerously-skip-permissions`, ou seja: **executa comando e
 escreve arquivo sem pedir licença a ninguém**. Num servidor não há quem clique
 "permitir", então essa flag é obrigatória. A consequência é direta: **o agente
