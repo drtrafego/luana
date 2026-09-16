@@ -138,6 +138,23 @@ printf '  %s\n' "CLAUDE.md" "working-memory.md" "TROUBLESHOOTING.md" \
 if [ "${QUER_SERVICE,,}" = "s" ]; then
   CLAUDE_BIN="$(command -v claude || echo /usr/local/bin/claude)"
   SVC="$AQUI/${NOME_TEC}.service"
+  WRAPPER="$PASTA/iniciar_${NOME_TEC}.sh"
+  cat > "$WRAPPER" <<EOF
+#!/usr/bin/env bash
+# Wrapper de inicializacao de ${NOME_EXIB} (chamado pelo ${NOME_TEC}.service).
+# Motivo do CONT condicional: subir com --continue sem transcript ainda faz o
+# Claude sair com "No conversation found to continue" (codigo 1), e com
+# Restart=always isso vira loop infinito de reinicio logo no primeiro boot,
+# antes mesmo da primeira conversa acontecer.
+PROJ="\$HOME/.claude/projects/-\$(echo "$PASTA" | tr '/' '-' | sed 's/^-//')"
+CONT=""
+ls "\$PROJ"/*.jsonl >/dev/null 2>&1 && CONT="--continue"
+
+exec /usr/bin/script -qfec \\
+  "$CLAUDE_BIN \$CONT --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions" \\
+  "\$HOME/${NOME_TEC}-tty.log"
+EOF
+  chmod +x "$WRAPPER"
   cat > "$SVC" <<EOF
 [Unit]
 Description=Agente ${NOME_EXIB} (Claude Code, canal Telegram)
@@ -148,7 +165,7 @@ Wants=network-online.target
 Type=simple
 User=${NOME_TEC}
 WorkingDirectory=${PASTA}
-ExecStart=/usr/bin/script -qfec "${CLAUDE_BIN} --continue --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions" /home/${NOME_TEC}/${NOME_TEC}-tty.log
+ExecStart=${WRAPPER}
 Restart=always
 RestartSec=10
 Environment=HOME=/home/${NOME_TEC}
@@ -157,8 +174,8 @@ Environment=PATH=/home/${NOME_TEC}/.bun/bin:/home/${NOME_TEC}/.local/bin:/usr/lo
 [Install]
 WantedBy=multi-user.target
 EOF
-  verde "Arquivo do servico gerado em $SVC"
-  amarelo "EU NAO INSTALEI. Confira o arquivo (principalmente User=, WorkingDirectory= e o caminho do claude) e rode voce:"
+  verde "Wrapper gerado em $WRAPPER e servico em $SVC"
+  amarelo "EU NAO INSTALEI. Confira os dois arquivos (principalmente User=, WorkingDirectory= e o caminho do claude) e rode voce:"
   cat <<EOF
 
   sudo cp "$SVC" /etc/systemd/system/${NOME_TEC}.service
