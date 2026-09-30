@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/orquestracao/portao_busca_memoria.py\"", "timeout": 10 },
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/orquestracao/portao_modelo_barato.py\"", "timeout": 5 }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/orquestracao/portao_bloqueio_mcp_list.py\"", "timeout": 5 },
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/orquestracao/portao_delegar.py\"", "timeout": 5 }
+        ]
+      },
+      {
+        "matcher": "Write|Bash",
+        "hooks": [
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/orquestracao/portao_memoria_nova.py\"", "timeout": 5 }
+        ]
+      }
+    ]
+  }
+}

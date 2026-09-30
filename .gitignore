@@ -10,3 +10,10 @@ diagnostico-*.md
 # lixo de sistema
 .DS_Store
 Thumbs.db
+
+# orquestracao: estado local dos portoes (nunca versionar)
+.portao_*
+.uso_memoria.jsonl
+.aviso_delegar.jsonl
+.executor_barato/
+__pycache__/

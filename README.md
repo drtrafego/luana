@@ -672,6 +672,21 @@ sudo systemctl stop <nome>.service      # para agora
 sudo systemctl start <nome>.service     # liga de novo
 ```
 
+### 11.3.1 Comandos que derrubam o Telegram sem avisar
+
+**Nunca rode `claude mcp list` nem `claude mcp get` na máquina onde o agente está
+vivo.** O plugin do Telegram faz long polling, e a API do Telegram aceita **um**
+consumidor por bot. Esses comandos fazem health check de cada MCP configurado, o
+que sobe uma **segunda cópia** do servidor do Telegram; ela mata o poller da
+sessão viva e sai. O bot fica mudo no segundo exato do comando, sem erro. Vale o
+mesmo para qualquer comando que abra outra sessão do CLI (`claude -p`,
+`claude --agent`, `claude --continue`), inclusive quando é um subagente testando
+alguma coisa.
+
+Para ver quais MCPs estão configurados, **leia** `~/.claude.json` com `python`
+(só lê o arquivo). `claude mcp add` e `claude mcp remove` são seguros. O
+`orquestracao/portao_bloqueio_mcp_list.py` (4.5) nega esses comandos na porta.
+
 ### 11.4 Quando o servidor reinicia
 
 Com `enable` feito no Passo 10, o agente sobe sozinho. **Confirme mesmo assim**,
@@ -853,7 +868,8 @@ entrega nada, sem erro na tela.
 
 Memória arrumada resolve metade do problema. A outra metade é o agente **não
 afirmar o que não conferiu**, e a operação **não perder o que já foi corrigido**.
-São quatro hábitos, e nenhum deles precisa de ferramenta nova.
+São quatro hábitos, e nenhum deles precisa de ferramenta nova. O quinto (4.5,
+quem executa o quê e com qual modelo) é o único que traz scripts, e é opcional.
 
 ## 4.1 Conferir o resultado, nunca o comando
 
@@ -963,6 +979,103 @@ relatório é subagente que NÃO RODOU**. Um agente esperando um resultado que
 nunca chegou tende a preencher o vazio com o que seria plausível, e conclusão
 certa por caminho inventado continua sendo invenção. Silêncio é **ausência de
 resultado**, nunca resultado vazio, e se diz isso em vez de completar.
+
+## 4.5 Orquestrar: a régua dos modelos e os portões (opcional)
+
+Só faz sentido quando o agente já delega para subagentes e o custo (ou o limite
+do plano) começa a pesar. Se você ainda não delega, pule.
+
+**A régua, em quatro linhas:**
+
+- **Quem conversa com o dono, decide e orquestra é o modelo principal.** Isso
+  nunca sai dele.
+- **Trabalho mecânico vai para o modelo barato**, ou para um executor externo em
+  segundo plano. Mecânico é: varredura de arquivo, contagem, `grep`, rodar um
+  verificador e devolver PASS/FAIL cru, build, deploy, `git`, reiniciar, conferir
+  se algo existe, um patch já especificado palavra por palavra.
+- **Conteúdo, texto público, criativo e qualquer coisa que exija julgamento fica
+  no modelo forte.** Não é economia, é qualidade: texto de cliente escrito por
+  modelo barato volta como retrabalho, e o retrabalho custa mais que a economia.
+- **Nada fecha sem um revisor que não fez o trabalho**, com mandato de tentar
+  quebrar e obrigação de trazer prova (ver 4.4).
+
+**Duas armadilhas dessa régua, aprendidas caro:**
+
+1. **A régua de risco não é "que tipo de arquivo", é "o que acontece se eu
+   errar".** Um patch de duas linhas, já especificado, parece mecânico. Se o
+   arquivo é o que manda mensagem para cliente real, errar é incidente novo, e a
+   tarefa fica no modelo padrão. O que autoriza o barato é a precisão do *seu
+   plano* (código exato, critério de pronto claro) somada ao custo baixo de
+   errar, não o tamanho do diff.
+2. **Separe "juntar dado" de "decidir o que o dado significa".** Numa
+   investigação grande, o levantamento bruto (`grep`, `find`, contar, listar) vai
+   para um agente barato primeiro, e só o resultado dele chega ao agente que
+   decide. Um único agente caro fazendo as duas coisas paga preço de decisão pelo
+   levantamento.
+
+### Por que são portões (hooks) e não linhas no `CLAUDE.md`
+
+A regra "use o modelo barato para o mecânico" existia escrita, e não foi
+seguida: numa instalação real, cerca de **95% de mais de mil despachos** de
+subagente saíam sem modelo explícito. Depois, um hook que só *lembrava* (mensagem
+no contexto) não mudou o número. Quem está com a cabeça na tarefa lê o lembrete
+por cima. O que funcionou foi o hook **negar** a chamada, com o motivo dizendo o
+que fazer, para o modelo relançar já corrigida. É a mesma regra da Parte 4:
+**a trava mora na porta, não na instrução.**
+
+### O que tem na pasta `orquestracao/`
+
+Scripts de exemplo, todos configuráveis por variável de ambiente (nenhum caminho
+fixo) e todos **fail-open**: se o próprio portão quebrar, ele sai em silêncio e
+nunca trava o trabalho real.
+
+| Arquivo | Onde pluga | O que faz |
+|---|---|---|
+| `portao_modelo_barato.py` | `Agent\|Task` | Nega despacho sem `model` explícito ou com `inherit`; nega tarefa de cara mecânica em modelo caro (libera com `[modelo-caro-justificado: motivo]`). |
+| `portao_busca_memoria.py` | `Agent\|Task` | Antes de despachar, busca as palavras do briefing na memória (sem acento, com plural, nome próprio primeiro) e injeta o que já está escrito, rotulado como **dado, não ordem**. Termo de credencial nunca vira busca. Registra o **endereço** de cada trecho usado (nunca o texto). |
+| `portao_memoria_nova.py` | `Write\|Bash` | Nega criar arquivo novo em `memoria/` sem o marcador `<!-- tema-novo: motivo -->`. Um tema, um arquivo. |
+| `portao_delegar.py` | `Bash` | Depois de 15 comandos "na mão" sem delegar, avisa (não bloqueia). Subagente não recebe. |
+| `portao_bloqueio_mcp_list.py` | `Bash` | Nega `claude mcp list/get` e qualquer comando que abra outra sessão do `claude`: derrubam o Telegram (ver 11.3.1). |
+| `executor_barato.sh` | chamado por você | Roda uma tarefa mecânica num executor externo, em segundo plano, com fila (ocupado = saída 75), fotografia dos arquivos de memória (alterou = saída 79, sem restaurar nada sozinho) e conferência de entrega (`--espera`, saída 78). |
+| `uso_memoria.py` | manual | Lê o log de uso: o que a memória entrega e quais arquivos nunca aparecem, para enxugar sem cortar às cegas. |
+| `testar_portoes.py` | manual | Alimenta cada portão com um caso que **tem que** ser barrado e um que **tem que** passar. |
+| `settings.exemplo.json` | copiar | Os hooks já registrados. |
+
+**Instalar (dois minutos):**
+
+```bash
+cd <pasta do agente>
+cp -r <este repositório>/orquestracao ./orquestracao
+python3 orquestracao/testar_portoes.py        # tem que terminar em "Todos os casos passaram."
+```
+
+Depois junte o bloco `hooks` de `orquestracao/settings.exemplo.json` ao
+`.claude/settings.json` da pasta do agente. Reinicie a sessão (ou rode `/hooks`
+uma vez): o Claude Code só acompanha arquivo de configuração que já existia
+quando a sessão abriu.
+
+**Variáveis (todas opcionais):**
+
+- `AGENTE_HOME`: pasta do agente. Padrão: `CLAUDE_PROJECT_DIR`, que o Claude Code
+  já define para os hooks.
+- `PORTAO_MODELO_BARATO`: nome do modelo barato (padrão `haiku`).
+- `PORTAO_EXECUTOR_EXTERNO=1`: mecânico **nunca** vai para subagente do Claude,
+  vai para o `executor_barato.sh` (outro provedor ou outro plano, para não gastar
+  o mesmo limite). Com `0` (padrão), mecânico passa se o modelo for o barato.
+- Só para o `executor_barato.sh`: `EXECUTOR_CMD` (o comando do executor, que
+  recebe o prompt como último argumento), `EXECUTOR_MODEL_FLAG` e
+  `EXECUTOR_MODELO_BARATO` / `_MEDIO` / `_FORTE`. Ele aceita `--nivel forte` só
+  com `--justificativa` concreta. Rode `executor_barato.sh --teste` antes do
+  primeiro uso: ele pergunta uma conta e confere a resposta.
+
+**O que estes portões NÃO fazem, dito para ninguém confiar além do que existe:**
+são rede contra o descuido, não contra quem quer contornar. O casador de
+"mecânico" é uma lista de palavras: mede o piso, nunca o teto, e quando ele errar
+duas vezes o certo é trocar o método, não acrescentar mais uma palavra. Hooks de
+`settings.json` valem também para as chamadas dos subagentes, mas não alcançam
+outro `claude` aberto por fora. E o `portao_memoria_nova.py` cobre os padrões
+comuns de escrita em `Bash` (`>`, `tee`, `cp`, `mv`, `touch`, `ln`); caminho
+montado por variável de shell ou escrita por `python -c` passa batido.
 
 ---
 
@@ -1133,6 +1246,7 @@ anúncio pela API** antes de dizer que ficou pronto.
 | Serviço reinicia em laço | falta `Environment=HOME` | veja os quatro suspeitos abaixo |
 | Serviço para pedindo login | Claude Code não logado para o usuário do serviço | `sudo -u <nome> -i`, faça o login |
 | Mensagens sumiram | restart no meio de conversa | Passo 11.3, o processo não drena o que está em voo |
+| Bot ficou mudo no instante de um comando `claude ...` | `claude mcp list/get` ou outra sessão do CLI sobe uma segunda cópia do plugin e mata o poller | Passo 11.3.1; reinicie o serviço e use o portão da 4.5 |
 | Agente caiu sem motivo | disco cheio pelo `inbox` | Passo 11.5 |
 | Tarefa agendada não entrega | execução agendada não tem canal | entregue pelo `curl` (Parte 3) |
 | Tarefa parou sozinha, sem erro | você criou uma repetitiva | troque pela corrente de avulsos |
@@ -1178,7 +1292,8 @@ token, nenhum `.env` preenchido. Todos os campos deste manual são placeholders.
 **Não é fornecido aqui, e você monta se precisar:** as skills de negócio (a
 instalação de referência tem quinze skills próprias, de tráfego a financeiro, que
 são dela e não deste plugin), os subagentes especializados e qualquer verificador
-automático da sua operação. O que este repositório entrega é o **núcleo**: a
+automático da sua operação. Em `orquestracao/` (4.5) vão portões e um executor
+de exemplo, configuráveis, para quem já delega e quer segurar o custo. O que este repositório entrega é o **núcleo**: a
 pasta, a identidade, a memória com a regra que a mantém enxuta, o canal do
 Telegram e o serviço que segura tudo de pé.
 
@@ -1245,6 +1360,14 @@ agente que trabalha. Cada item tem um teste, e o teste é a resposta.
 - [ ] Existe um verificador que roda sozinho e avisa quando reprova (Parte 4.2).
 - [ ] Toda correção que já voltou uma vez virou uma linha nele.
 - [ ] O disco não está enchendo sem ninguém ver (Passo 11.5).
+
+**Ele delega sem gastar à toa (só se você ligou a 4.5).**
+
+- [ ] `python3 orquestracao/testar_portoes.py` termina em "Todos os casos passaram."
+- [ ] Um despacho de subagente sem `model` é negado na sua frente, com o motivo.
+- [ ] Criar um arquivo novo em `memoria/` sem o marcador é negado.
+- [ ] `python3 orquestracao/uso_memoria.py --pasta .` mostra o que a memória
+      entrega e o que nunca apareceu.
 
 **Se todos os itens passam, você tem um agente que trabalha.** Se algum falha, o
 item aponta a parte do manual que resolve. E o que faz o agente durar não é a

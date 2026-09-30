@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Wizard que cria um agente pessoal no Telegram usando 100% Claude Code nativo, sem instalar nada extra (sem Bun, sem hooks, sem scripts, sem launcher, sem painel). Da nome, personalidade e memoria ao agente, cria o bot no BotFather e ensina a cerimonia de religar. Use quando a pessoa rodar /agente:setup, pedir pra "instalar meu agente", "criar meu assistente no Telegram", "criar meu agente pessoal", "montar o bot que fala comigo", ou pedir o "modo nativo", "versao leve" ou "versao de aula" do plugin.
+description: Wizard que cria um agente pessoal no Telegram usando 100% Claude Code nativo, sem instalar nada extra (sem Bun, sem launcher, sem painel; o núcleo não instala hooks nem scripts, os portões de orquestracao/ são opcionais). Da nome, personalidade e memoria ao agente, cria o bot no BotFather e ensina a cerimonia de religar. Use quando a pessoa rodar /agente:setup, pedir pra "instalar meu agente", "criar meu assistente no Telegram", "criar meu agente pessoal", "montar o bot que fala comigo", ou pedir o "modo nativo", "versao leve" ou "versao de aula" do plugin.
 user-invocable: true
 ---
 
