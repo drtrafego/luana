@@ -8,7 +8,7 @@
 #                 pacote e nao toca em credencial. Essas partes ficam na sua
 #                 mao, de proposito: veja a Parte 2 do README.
 #
-# Uso:  bash instalar.sh
+# Uso:  bash instalar.sh   (no terminal do SERVIDOR onde o agente vai viver)
 
 set -euo pipefail
 
@@ -35,6 +35,8 @@ Vou criar a pasta do seu agente e escrever os arquivos dele.
 Nada e instalado no sistema, e nenhuma credencial e pedida aqui.
 Ctrl+C cancela a qualquer momento.
 TXT
+amarelo "IMPORTANTE: rode este script no TERMINAL DO SERVIDOR onde o agente vai viver,"
+amarelo "e nao no notebook/PC nem no celular. Remoto? Entre antes: ssh usuario@ip-do-servidor"
 
 # ------------------------------------------------------------------- perguntas
 titulo "1. O nome"

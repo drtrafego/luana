@@ -45,6 +45,33 @@ diga assim: *"aperta a tecla Windows, digita `cmd`, Enter"*. Nunca PowerShell. E
 separadas, porque a pessoa cola o bloco inteiro de uma vez e quebra — sempre
 `cd ... && claude ...` numa linha.
 
+## Antes do Passo 1: onde tudo acontece (diga e pergunte UMA vez)
+
+**Regra de ouro, alinhada com o README (quadro "ONDE cada coisa é feita", seção
+0.2):** toda a instalação é digitada no **terminal do SERVIDOR** onde o agente
+vai viver (clonar, instalar plugin, criar o agente, escrever o `.service`,
+ativar), e **não** no notebook/PC da pessoa nem no celular. O celular só serve
+para o Telegram: o BotFather e a conversa com o bot.
+
+Antes de qualquer passo, diga isso com as suas palavras, em 2 ou 3 frases, e
+pergunte **UMA vez**: *"Você já está conectado no terminal do servidor onde o
+agente vai morar?"*
+
+- **Sim:** siga para o Passo 1 sem repetir a pergunta depois.
+- **Não / não sei:** oriente a conectar ANTES de seguir. Servidor remoto: no
+  notebook, abrir um terminal (no Windows, tecla Windows, `cmd`, Enter) e digitar
+  `ssh usuario@ip-do-servidor`, com o usuário e o endereço que o provedor passou;
+  depois disso, tudo é feito naquela janela. Sugira conferir com `hostname` que o
+  nome é o do servidor e não o do computador dela. Só prossiga quando ela
+  confirmar que está lá.
+- **Vai usar o próprio computador (Modo Pessoal, sem servidor):** tudo bem, o
+  terminal dele passa a ser o "terminal do servidor" e o `ssh` não se aplica.
+  Avise que, nesse caso, o agente só fica vivo enquanto o computador estiver
+  ligado.
+
+Erro comum a prevenir: a pessoa colar os comandos no notebook por hábito e
+acabar com o agente instalado na máquina errada.
+
 ## Checklist — MOSTRE e vá marcando
 
 Cole no começo e, a cada passo concluído, reescreva trocando `[ ]` por `[x]`,

@@ -14,6 +14,11 @@ se chama `agente` e não muda: por isso os comandos são `/agente:setup`,
 enquanto uma janela está aberta no seu computador serve para aprender e para
 testar, mas não é funcionário de ninguém. A Parte 2 é o coração daqui.
 
+**Regra que vale para o manual inteiro: todo comando é digitado no terminal do
+SERVIDOR onde o agente vai viver, e não no seu notebook nem no celular.** O
+celular só serve para o Telegram. O quadro "ONDE cada coisa é feita", no começo
+da seção 0.2, explica como chegar lá.
+
 ---
 
 ## Índice
@@ -52,6 +57,40 @@ aberta), veja o agente responder, e só então promova para serviço na Parte 2.
 núcleo é o mesmo nos dois, então nada do que você fizer na Parte 1 se perde.
 
 ## 0.2 Pré-requisitos
+
+> ### ONDE cada coisa é feita (leia antes de digitar qualquer comando)
+>
+> **1. TERMINAL DO SERVIDOR: aqui você faz TODA a instalação.** Clonar o
+> repositório, instalar o plugin, criar o agente, escrever o `.service`, ativar e
+> operar. Tudo que está em bloco de comando neste manual é digitado **ali**, na
+> máquina onde o agente vai morar, e em nenhum outro lugar.
+>
+> **Como abrir o terminal do servidor.** Se o servidor é remoto (o normal), você
+> entra nele a partir do seu notebook ou PC com uma linha, trocando pelo usuário e
+> pelo endereço que o seu provedor de servidor te passou:
+>
+> ```bash
+> ssh usuario@ip-do-servidor
+> ```
+>
+> Depois de entrar, o terminal passa a ser **o do servidor**. Dali em diante,
+> cada bloco de comando do manual é colado **nessa mesma janela**. Para sair, digite
+> `exit`. No Windows, o `ssh` roda no Prompt de Comando (tecla Windows, `cmd`,
+> Enter) ou no Terminal do Windows.
+>
+> **2. CELULAR, no Telegram: só duas coisas.** Criar o bot no BotFather (Passo 4)
+> e conversar com o bot depois que ele estiver no ar (mandar "oi", fazer as
+> provas). Nenhum comando de instalação é digitado no celular.
+>
+> **O erro mais comum:** rodar os comandos no terminal do seu notebook ou PC em vez
+> do servidor. O comando até funciona lá, e você acaba com o agente instalado na
+> máquina errada, que dorme quando você fecha a tampa. Sinal de que você está no
+> lugar errado: o nome que aparece antes do cursor (o prompt) é o do seu
+> computador, e não o do servidor. Na dúvida, rode `hostname` e confira que o nome
+> é o do servidor.
+>
+> Escolheu o Modo Pessoal (seção 0.1)? Então o seu "servidor" é o próprio
+> computador: o terminal dele é o terminal do servidor, e o `ssh` não se aplica.
 
 **Para todo mundo:**
 
@@ -99,11 +138,14 @@ Responda antes de rodar qualquer coisa:
 
 # Parte 1, o núcleo (todo mundo faz)
 
-Se o destino é o servidor, **faça esta parte já dentro dele**, conectado por SSH.
+Se o destino é o servidor, **faça esta parte já dentro dele**, conectado por SSH
+(veja "ONDE cada coisa é feita", na seção 0.2).
 Assim a pasta, o login e o canal do Telegram nascem no lugar definitivo, e você
 não precisa migrar nada depois.
 
 ## Passo 1, escolher o nome
+
+**Onde:** terminal do servidor.
 
 **O que faz:** define como o agente se chama. Esse nome vai para a pasta, os
 arquivos, o serviço e o jeito dele se apresentar. Trocar depois é chato, então
@@ -135,6 +177,8 @@ seu agente vai brigar com algo que já existe. Evite também `claude`, `telegram
 
 ## Passo 2, clonar o repositório
 
+**Onde:** terminal do servidor. (Clonar no notebook é o erro mais comum deste passo.)
+
 **O que faz:** traz o plugin para a máquina onde o agente vai viver.
 
 **Comando:**
@@ -156,6 +200,8 @@ o problema descrito lá. Recebeu isto num `.zip` em vez de clonar? Descompacte
 numa pasta neutra e leia o `INSTALAR.md`.
 
 ## Passo 3, instalar o plugin no Claude Code
+
+**Onde:** terminal do servidor, dentro do Claude Code (abra-o digitando `claude` no terminal do servidor).
 
 **O que faz:** registra o plugin, que traz os comandos `/agente:setup`,
 `/agente:connect` e `/agente:doctor`.
@@ -184,6 +230,8 @@ Depois **feche e reabra o Claude Code**, ou rode `/reload-plugins`.
   assistente rodar.
 
 ## Passo 4, criar o bot no Telegram
+
+**Onde:** celular, no Telegram.
 
 **O que faz:** cria o bot que é a porta de entrada do agente, e devolve o
 **token**, a chave que autoriza falar por ele. Você faz isto no Telegram do
@@ -270,6 +318,8 @@ ninguém, não poste em grupo, não coloque em print. Vazou? No BotFather,
 
 ## Passo 5, criar o agente
 
+**Onde:** terminal do servidor.
+
 **O que faz:** cria a pasta do agente e escreve os arquivos de identidade,
 memória e socorro, com o nome que você escolheu.
 
@@ -321,6 +371,8 @@ novo e diga o que já existe. Script reclamando do nome: volte ao Passo 1.
 
 ## Passo 6, primeira partida, parear e trancar a porta
 
+**Onde:** terminal do servidor. A única exceção é mandar mensagem para o bot no 6.3, que você faz do celular, no Telegram.
+
 **O que faz:** acorda o agente pela primeira vez, autoriza o seu Telegram e fecha
 a porta para o resto do mundo, na mesma ação.
 
@@ -342,8 +394,8 @@ TELEGRAM_BOT_TOKEN=<COLE AQUI O TOKEN DO BOTFATHER>
 cd "<pasta do agente>" && claude --channels plugin:telegram@claude-plugins-official
 ```
 
-No Windows, o terminal é o Prompt de Comando (tecla Windows, `cmd`, Enter) e a
-linha leva `/d`: `cd /d "<pasta>" && claude --channels ...`.
+Só no Modo Pessoal, num computador Windows, o terminal é o Prompt de Comando
+(tecla Windows, `cmd`, Enter) e a linha leva `/d`: `cd /d "<pasta>" && claude --channels ...`.
 
 Essa janela **é** o agente acordado. Enquanto ela estiver aberta, ele está vivo.
 
@@ -391,6 +443,8 @@ Guarde esse número. Ele volta na Parte 3, e é lá que ler do lugar errado queb
 sem dar erro.
 
 ## Passo 7, as três provas
+
+**Onde:** as mensagens para o bot, no celular (Telegram); abrir arquivos e digitar na janela do agente, no terminal do servidor.
 
 **O que faz:** prova que funciona de verdade. Não confie no comando que você
 rodou, abra o resultado.
@@ -440,6 +494,8 @@ sessão: sobe sozinho no boot, levanta quando cai, e continua a mesma conversa.
 Faça esta parte depois que as três provas do Passo 7 passaram.
 
 ## Passo 8, onde o agente vive: usuário, pasta e permissão
+
+**Onde:** terminal do servidor.
 
 **O que faz:** cria uma conta dedicada só para o agente.
 
@@ -514,6 +570,8 @@ sudo chmod 600 /home/<nome>/.claude/channels/telegram/.env
 ```
 
 ## Passo 9, escrever o `<nome>.service`
+
+**Onde:** terminal do servidor.
 
 **O que faz:** ensina o systemd a manter o agente vivo.
 
@@ -622,6 +680,8 @@ você ajusta. Nenhuma das três é necessária para funcionar.
 
 ## Passo 10, ativar e provar que está no ar
 
+**Onde:** terminal do servidor. A prova final (mandar mensagem e receber resposta) é no celular, no Telegram.
+
 **O que faz:** liga o serviço, garante que ele volta sozinho depois de um reboot,
 e confirma com evidência que está de pé.
 
@@ -664,6 +724,8 @@ precisa ter sido **modificado agora**, depois da sua última mensagem.
 quatro suspeitos na ordem.
 
 ## Passo 11, operar no dia a dia
+
+**Onde:** terminal do servidor (todos os comandos deste passo).
 
 Esta é a parte que ninguém escreve e todo mundo precisa. São quatro tarefas.
 
@@ -779,6 +841,8 @@ confira o que vai sair.** Se o agente precisa consultar anexo antigo, aumente o
 prazo em vez de apagar.
 
 ## Passo 12, a regra que não tem exceção: nunca duas instâncias
+
+**Onde:** terminal do servidor.
 
 Dois processos com o mesmo token disputam o canal e o Telegram devolve **erro
 409**. O resultado prático é bot mudo, e nem sempre é óbvio, porque o serviço
