@@ -196,7 +196,7 @@ cat <<EOF
      No Telegram: busque @BotFather (selo azul), mande /newbot, escolha o
      nome de exibicao e um username unico terminando em "bot"; copie o token.
      Passo a passo com exemplos e erros comuns: README.md, "Passo 4, criar o bot
-     no Telegram". Nunca publique o token; vazou? /revoke no BotFather.
+     no Telegram". Nunca publique o token; vazou? /token no BotFather.
 3. Acorde o agente e pareie (Passo 6 do README):
      cd "$PASTA" && claude --channels plugin:telegram@claude-plugins-official
 4. Tranque o acesso: dmPolicy "allowlist" no access.json

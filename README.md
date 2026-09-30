@@ -223,6 +223,8 @@ frases que aparecem estão abaixo, para você reconhecer.
    - único no Telegram inteiro, então nomes curtos e óbvios já estão tomados.
      Ponha algo seu no meio, como o seu nome.
 
+   Atenção: o username **NÃO pode ser trocado depois** (o nome de exibição pode). Escolha com calma.
+
    Exemplos que **dão erro**, e por quê:
    - `maria do fulano bot`, tem espaço;
    - `maria_do_fulano`, não termina em `bot`;
@@ -232,6 +234,7 @@ frases que aparecem estão abaixo, para você reconhecer.
    mas alguém já usou. Invente outro, o `@` não precisa ser bonito.
    *"Sorry, this username is invalid"* quer dizer que quebrou uma das regras
    acima. Ele sempre pergunta de novo, é só mandar outro.
+   Se aparecer qualquer outra frase começando com "Sorry", leia: ela diz o que faltou (por exemplo, terminar em bot). Depois mande outro username.
 5. **Copie o token.** Quando dá certo, ele responde *"Done! Congratulations on
    your new bot"* e mais abaixo *"Use this token to access the HTTP API:"*. O
    token é a linha logo depois: um **número, dois-pontos e uma sequência longa de
@@ -243,16 +246,9 @@ frases que aparecem estão abaixo, para você reconhecer.
 
    Toque e segure na linha para copiar. **Copie a linha inteira**, do primeiro
    número até o último caractere, **sem espaço** antes nem depois e sem pegar o
-   texto em volta.
-6. **Guarde o token e siga.** Por enquanto não cole em lugar nenhum: o Passo 6.1
-   grava com `/telegram:configure`. Se precisar parar aqui, cole o token em
-   "Mensagens salvas" do Telegram. Já o link `t.me/<seu_username>` que o
-   BotFather mostra é o seu bot: toque nele, você vai mandar a primeira mensagem
-   no Passo 6.3. **Ele fica mudo até lá, e isso é normal**: o agente só responde
-   depois de acordado no Passo 6.
+6. **Deixe a conversa do BotFather aberta e siga.** O token continua escrito nela, então não precisa guardar em outro lugar. Quando chegar no Passo 6.1, volte aqui, toque e segure na linha do token e copie de novo. Se a conversa sumir, mande `/token` ao BotFather: ele gera um token novo, e é esse que você grava. O link `t.me/<seu_username>` que ele mostra é o seu bot; toque nele, você vai mandar a primeira mensagem no Passo 6.3. **Ele fica mudo até lá, e isso é normal**: o agente só responde depois de acordado no Passo 6.
 
-**Deu certo se:** você tem o token copiado e consegue abrir a conversa do bot
-pelo @username.
+**Deu certo se:** você tem o token copiado (ou sabe voltar na conversa do BotFather para copiar de novo) e consegue abrir a conversa do bot pelo @username.
 
 **Deu errado?**
 
@@ -262,17 +258,15 @@ pelo @username.
   aparecer mais de um, use só o que tem o selo azul. Sem selo, não use: pode ser
   falso.
 - **Criei o bot errado ou com o nome errado.** Sem problema: mande `/newbot` de
-  novo e crie outro. Para apagar o errado, `/mybots`, escolha o bot, *Delete Bot*.
-- **Perdi o token.** Mande `/mybots`, escolha o bot, toque em *API Token*. Ele
-  mostra de novo.
+  novo e crie outro. Para apagar o errado, mande `/deletebot` e escolha o bot.
+- **Perdi o token.** Mande `/token` ao BotFather, escolha o bot e ele gera um token novo. Grave o novo.
 - **O token não funcionou depois (bot mudo ou "unauthorized").** Quase sempre é
   espaço sobrando no começo ou no fim, ou um pedaço cortado. Copie de novo, a
   linha inteira, e grave outra vez.
 
 **O token é a chave do bot.** Quem tem ele fala pelo seu agente: não mande para
 ninguém, não poste em grupo, não coloque em print. Vazou? No BotFather,
-`/revoke` gera um token novo e mata o antigo na hora. Revogue primeiro, conserte
-depois.
+`/token` gera um token novo. Grave o novo.
 
 ## Passo 5, criar o agente
 

@@ -206,7 +206,7 @@ que vão aparecer, pra ela reconhecer.
 
 Aviso importante pra dizer: "esse token é a chave do seu bot — não manda pra
 ninguém, não posta em grupo, não coloca em print. Se vazar, no BotFather mande
-`/revoke`: ele gera um token novo e mata o antigo na hora."
+`/token`: ele gera um token novo e mata o antigo na hora."
 
 **Configurar o token no plugin telegram.** Use o fluxo do próprio plugin oficial
 — ele muda de versão pra versão, então seja adaptativo. Se a skill
@@ -227,12 +227,12 @@ que a tela está pedindo e conduza a pessoa por aquilo, com calma.
 - **Não achou o BotFather com selo azul:** busque exatamente `@BotFather`; se
   vier mais de um, só o que tem o selo. Sem selo, não usar.
 - **Criou o bot errado ou com o nome errado:** `/newbot` de novo. Pra apagar o
-  errado: `/mybots`, escolher o bot, *Delete Bot*.
-- **Perdeu o token:** `/mybots`, escolher o bot, *API Token*.
+  errado: mande `/deletebot` e escolha o bot.
+- **Perdeu o token:** Mande `/token` ao BotFather, escolha o bot e ele gera um token novo. Grave o novo.
 - **Token não funciona** (bot mudo, "unauthorized"): quase sempre é espaço sobrando
   no começo ou no fim, ou um pedaço cortado. Copiar de novo, a linha inteira, e
   gravar outra vez.
-- **Token apareceu em grupo, print ou chat:** `/revoke` no BotFather na hora,
+- **Token apareceu em grupo, print ou chat:** `/token` no BotFather na hora,
   grave o novo, e só depois siga.
 
 ## Passo 4 — Primeira partida + pareamento (e a tranca)  → marca [4]
