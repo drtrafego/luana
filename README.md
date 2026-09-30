@@ -185,22 +185,89 @@ Depois **feche e reabra o Claude Code**, ou rode `/reload-plugins`.
 
 ## Passo 4, criar o bot no Telegram
 
-**O que faz:** cria o bot que é a porta de entrada do agente, e devolve o token
-que autoriza falar por ele.
+**O que faz:** cria o bot que é a porta de entrada do agente, e devolve o
+**token**, a chave que autoriza falar por ele. Você faz isto no Telegram do
+celular (ou do computador), não no servidor. Leva uns 3 minutos.
 
-**Comando:** no Telegram, procure **@BotFather** (o com selo azul) e:
+O BotFather vai pedir **duas coisas parecidas e diferentes**, e é aqui que quase
+todo mundo se atrapalha:
 
-1. Mande `/newbot`.
-2. Informe o **nome de exibição**. Pode ter acento.
-3. Informe o **@username**, único no Telegram inteiro e terminando em `bot`, por
-   exemplo `maria_do_fulano_bot`.
-4. Copie o **token**, no formato `123456789:AAH...`.
+| | **Nome de exibição** | **Username (o @)** |
+|---|---|---|
+| O que é | o nome que aparece no topo da conversa | o endereço único do bot no Telegram |
+| Exemplo | `Maria Assistente` | `maria_do_fulano_bot` |
+| Espaço e acento | pode | **não pode** |
+| Pode repetir o de outro bot | pode | **não pode**, é único no Telegram inteiro |
+| Precisa terminar em `bot` | não | **sim, obrigatório** |
+
+O BotFather responde em inglês. Não tem versão em português, e está tudo bem: as
+frases que aparecem estão abaixo, para você reconhecer.
+
+**Comando**, no Telegram:
+
+1. **Abra o BotFather.** Toque na lupa (busca), digite `BotFather` e escolha o
+   perfil **@BotFather** que tem o **selo azul** de verificado ao lado do nome.
+   Existem perfis falsos com nome parecido (sem selo, ou com letra trocada). O
+   verdadeiro nunca pede senha, telefone ou pagamento. Abra a conversa e toque em
+   **Iniciar** (em inglês, **Start**).
+2. **Mande `/newbot`.** Ele responde algo como *"Alright, a new bot. How are we
+   going to call it? Please choose a name for your bot."*
+3. **Informe o nome de exibição.** É o que vai aparecer na conversa. Pode ter
+   espaço, maiúscula e acento. Exemplo: `Maria Assistente`. Se quiser mudar
+   depois, dá (`/setname` no BotFather).
+4. **Informe o username.** Ele responde *"Now let's choose a username for your
+   bot. It must end in `bot`."* As regras:
+   - termina em `bot` (`maria_do_fulano_bot`, `mariabot`);
+   - de 5 a 32 caracteres;
+   - só letras **sem acento**, números e sublinhado (`_`). Sem espaço, sem hífen;
+   - único no Telegram inteiro, então nomes curtos e óbvios já estão tomados.
+     Ponha algo seu no meio, como o seu nome.
+
+   Exemplos que **dão erro**, e por quê:
+   - `maria do fulano bot`, tem espaço;
+   - `maria_do_fulano`, não termina em `bot`;
+   - `joão_bot`, tem acento (`joao_bot` passa).
+
+   Se aparecer *"Sorry, this username is already taken"*, o username está certo
+   mas alguém já usou. Invente outro, o `@` não precisa ser bonito.
+   *"Sorry, this username is invalid"* quer dizer que quebrou uma das regras
+   acima. Ele sempre pergunta de novo, é só mandar outro.
+5. **Copie o token.** Quando dá certo, ele responde *"Done! Congratulations on
+   your new bot"* e mais abaixo *"Use this token to access the HTTP API:"*. O
+   token é a linha logo depois: um **número, dois-pontos e uma sequência longa de
+   letras e números misturados**, mais ou menos assim:
+
+   ```
+   1234567890:AAH...(mais uns 30 caracteres)
+   ```
+
+   Toque e segure na linha para copiar. **Copie a linha inteira**, do primeiro
+   número até o último caractere, **sem espaço** antes nem depois e sem pegar o
+   texto em volta.
+6. **Guarde o token e siga.** Por enquanto não cole em lugar nenhum: o Passo 6.1
+   grava com `/telegram:configure`. Se precisar parar aqui, cole o token em
+   "Mensagens salvas" do Telegram. Já o link `t.me/<seu_username>` que o
+   BotFather mostra é o seu bot: toque nele, você vai mandar a primeira mensagem
+   no Passo 6.3. **Ele fica mudo até lá, e isso é normal**: o agente só responde
+   depois de acordado no Passo 6.
 
 **Deu certo se:** você tem o token copiado e consegue abrir a conversa do bot
 pelo @username.
 
-**Deu errado?** "Username is already taken" quer dizer que alguém no mundo já
-usou aquele nome: invente outro, o `@` não precisa ser bonito.
+**Deu errado?**
+
+- **"Sorry, this username is already taken" ou "is invalid".** Veja as regras do
+  item 4 e mande outro username. O nome de exibição não precisa mudar.
+- **Não achei o BotFather com selo azul.** Busque exatamente `@BotFather`. Se
+  aparecer mais de um, use só o que tem o selo azul. Sem selo, não use: pode ser
+  falso.
+- **Criei o bot errado ou com o nome errado.** Sem problema: mande `/newbot` de
+  novo e crie outro. Para apagar o errado, `/mybots`, escolha o bot, *Delete Bot*.
+- **Perdi o token.** Mande `/mybots`, escolha o bot, toque em *API Token*. Ele
+  mostra de novo.
+- **O token não funcionou depois (bot mudo ou "unauthorized").** Quase sempre é
+  espaço sobrando no começo ou no fim, ou um pedaço cortado. Copie de novo, a
+  linha inteira, e grave outra vez.
 
 **O token é a chave do bot.** Quem tem ele fala pelo seu agente: não mande para
 ninguém, não poste em grupo, não coloque em print. Vazou? No BotFather,

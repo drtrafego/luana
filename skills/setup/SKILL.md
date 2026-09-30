@@ -54,7 +54,7 @@ dizendo em 1 linha qual é o próximo item.
 MEU AGENTE (MODO NATIVO) — progresso
 [ ] 1. Check-up (Claude Code em dia + login + plugin telegram)
 [ ] 2. Nome, personalidade, pasta e memória do agente
-[ ] 3. Bot no BotFather (token)
+[ ] 3. Bot no BotFather (nome, @username terminando em bot, token)
 [ ] 4. Primeira partida + pareamento (e a tranca)
 [ ] 5. Teste de fogo + memória
 [ ] 5a. Áudio: ele escuta suas mensagens de voz? (opcional)
@@ -160,18 +160,53 @@ memória (`memoria/`) e o guia de socorro (`TROUBLESHOOTING.md`).
 
 ## Passo 3 — Bot no BotFather  → marca [3]
 
-Conduza, com paciência, um passo por mensagem:
+Este passo é o mesmo do **Passo 4 do README** (mesma ordem, mesmas palavras). A
+pessoa faz **no Telegram do celular**; você conduz, **um item por mensagem**,
+esperando ela confirmar antes do próximo. Ela é leiga: não pule nada.
 
-1. No Telegram, procure **@BotFather** (o com selo azul) e abra a conversa.
-2. Mande `/newbot`.
-3. Ele pede o **nome de exibição** (pode ser o nome do agente, com acento).
-4. Ele pede o **@username**, único no Telegram inteiro e **terminando em `bot`**
-   (ex.: `luna_da_ana_bot`). Deu "username is already taken"? Invente outro.
-5. Ele responde com o **token**, uma linha grande tipo `123456789:AAH...`.
-   Peça pra pessoa **copiar** esse token.
+Antes de começar, explique a pegadinha: o BotFather vai pedir **duas coisas
+parecidas e diferentes**.
+
+- **Nome de exibição**: o que aparece no topo da conversa. Pode ter espaço,
+  maiúscula e acento (ex.: `Luna Assistente`).
+- **Username (o @)**: o endereço único do bot. **Sem espaço, sem acento, único no
+  Telegram inteiro e TEM que terminar em `bot`** (ex.: `luna_da_ana_bot`).
+
+Avise também que o BotFather responde **em inglês** (é normal) e diga as frases
+que vão aparecer, pra ela reconhecer.
+
+1. **Abrir o BotFather.** Toque na lupa (busca) do Telegram, digite `BotFather` e
+   escolha o **@BotFather** com o **selo azul** de verificado ao lado do nome.
+   Existem perfis falsos com nome parecido: sem selo, ou com letra trocada. O
+   verdadeiro nunca pede senha, telefone nem pagamento. Abrir a conversa e tocar
+   em **Iniciar** (**Start**).
+2. **Mandar `/newbot`.** Ele responde *"Alright, a new bot. How are we going to
+   call it? Please choose a name for your bot."*
+3. **Nome de exibição.** Peça o nome (pode ser o nome do agente, com acento). Dá
+   pra mudar depois com `/setname`.
+4. **Username.** Ele responde *"Now let's choose a username for your bot. It must
+   end in `bot`."* Regras: termina em `bot`, de 5 a 32 caracteres, só letras sem
+   acento, números e sublinhado (`_`), sem espaço nem hífen, e único no mundo
+   (nomes curtos e óbvios já foram; ponha o nome dela no meio). Mostre **dois
+   exemplos que dão erro**: `luna da ana bot` (tem espaço) e `luna_da_ana` (não
+   termina em `bot`); e um terceiro se ajudar: `lúna_bot` (tem acento).
+   *"Sorry, this username is already taken"* quer dizer que o username está certo
+   mas alguém já usou: invente outro. *"Sorry, this username is invalid"* quer
+   dizer que quebrou uma regra: confira acima e mande outro. O nome de exibição
+   não precisa mudar.
+5. **O token.** Quando dá certo ele responde *"Done! Congratulations on your new
+   bot"* e, logo abaixo, *"Use this token to access the HTTP API:"*. O **token** é
+   a linha seguinte: um **número, dois-pontos e uma sequência longa de letras e
+   números misturados**, no formato `1234567890:AAH...` (esse é só um exemplo, o
+   dela é diferente). Peça pra **tocar e segurar na linha e copiar**, a linha
+   **inteira**, **sem espaço** antes nem depois e sem pegar texto em volta. O
+   link `t.me/<username>` que ele mostra também é o bot dela: vai ser usado no
+   Passo 4. **O bot fica mudo até lá, e é normal.**
+6. **Gravar o token.** Veja abaixo.
 
 Aviso importante pra dizer: "esse token é a chave do seu bot — não manda pra
-ninguém, não posta em grupo".
+ninguém, não posta em grupo, não coloca em print. Se vazar, no BotFather mande
+`/revoke`: ele gera um token novo e mata o antigo na hora."
 
 **Configurar o token no plugin telegram.** Use o fluxo do próprio plugin oficial
 — ele muda de versão pra versão, então seja adaptativo. Se a skill
@@ -184,6 +219,21 @@ de proteção do próprio usuário bloqueou a escrita do `.env`. **Não peça pr
 desativar proteção nenhuma** — use o mesmo fallback: siga pro Passo 4 sem gravar.
 E se a UX do plugin estiver diferente do descrito, **não trave o wizard**: leia o
 que a tela está pedindo e conduza a pessoa por aquilo, com calma.
+
+**Erros comuns (o mesmo quadro do README):**
+
+- **Username recusado** (*already taken* ou *invalid*): releia as regras do
+  item 4 e peça outro.
+- **Não achou o BotFather com selo azul:** busque exatamente `@BotFather`; se
+  vier mais de um, só o que tem o selo. Sem selo, não usar.
+- **Criou o bot errado ou com o nome errado:** `/newbot` de novo. Pra apagar o
+  errado: `/mybots`, escolher o bot, *Delete Bot*.
+- **Perdeu o token:** `/mybots`, escolher o bot, *API Token*.
+- **Token não funciona** (bot mudo, "unauthorized"): quase sempre é espaço sobrando
+  no começo ou no fim, ou um pedaço cortado. Copiar de novo, a linha inteira, e
+  gravar outra vez.
+- **Token apareceu em grupo, print ou chat:** `/revoke` no BotFather na hora,
+  grave o novo, e só depois siga.
 
 ## Passo 4 — Primeira partida + pareamento (e a tranca)  → marca [4]
 
