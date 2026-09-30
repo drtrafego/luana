@@ -238,7 +238,7 @@ frases que aparecem estão abaixo, para você reconhecer.
 5. **Copie o token.** Quando dá certo, ele responde *"Done! Congratulations on
    your new bot"* e mais abaixo *"Use this token to access the HTTP API:"*. O
    token é a linha logo depois: um **número, dois-pontos e uma sequência longa de
-   letras e números misturados**, mais ou menos assim:
+   letras e números, que pode ter _ ou -**, mais ou menos assim:
 
    ```
    1234567890:AAH...(mais uns 30 caracteres)
