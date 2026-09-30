@@ -160,7 +160,7 @@ memória (`memoria/`) e o guia de socorro (`TROUBLESHOOTING.md`).
 
 ## Passo 3 — Bot no BotFather  → marca [3]
 
-Este passo é o mesmo do **Passo 4 do README** (mesma ordem, mesmas palavras). A
+Este passo é o Passo 4 do README, com o mesmo conteúdo e a mesma ordem dos itens. A
 pessoa faz **no Telegram do celular**; você conduz, **um item por mensagem**,
 esperando ela confirmar antes do próximo. Ela é leiga: não pule nada.
 
@@ -178,7 +178,7 @@ que vão aparecer, pra ela reconhecer.
 1. **Abrir o BotFather.** Toque na lupa (busca) do Telegram, digite `BotFather` e
    escolha o **@BotFather** com o **selo azul** de verificado ao lado do nome.
    Existem perfis falsos com nome parecido: sem selo, ou com letra trocada. O
-   verdadeiro nunca pede senha, telefone nem pagamento. Abrir a conversa e tocar
+   verdadeiro nunca pede a sua senha nem o código de login do Telegram. Abrir a conversa e tocar
    em **Iniciar** (**Start**).
 2. **Mandar `/newbot`.** Ele responde *"Alright, a new bot. How are we going to
    call it? Please choose a name for your bot."*
@@ -188,6 +188,7 @@ que vão aparecer, pra ela reconhecer.
    end in `bot`."* Regras: termina em `bot`, de 5 a 32 caracteres, só letras sem
    acento, números e sublinhado (`_`), sem espaço nem hífen, e único no mundo
    (nomes curtos e óbvios já foram; ponha o nome dela no meio). Mostre **dois
+   Atenção: o username **NÃO pode ser trocado depois** (o nome de exibição pode). Escolha com calma.
    exemplos que dão erro**: `luna da ana bot` (tem espaço) e `luna_da_ana` (não
    termina em `bot`); e um terceiro se ajudar: `lúna_bot` (tem acento).
    *"Sorry, this username is already taken"* quer dizer que o username está certo

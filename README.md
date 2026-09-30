@@ -208,7 +208,7 @@ frases que aparecem estão abaixo, para você reconhecer.
 1. **Abra o BotFather.** Toque na lupa (busca), digite `BotFather` e escolha o
    perfil **@BotFather** que tem o **selo azul** de verificado ao lado do nome.
    Existem perfis falsos com nome parecido (sem selo, ou com letra trocada). O
-   verdadeiro nunca pede senha, telefone ou pagamento. Abra a conversa e toque em
+   verdadeiro nunca pede a sua senha nem o código de login do Telegram. Abra a conversa e toque em
    **Iniciar** (em inglês, **Start**).
 2. **Mande `/newbot`.** Ele responde algo como *"Alright, a new bot. How are we
    going to call it? Please choose a name for your bot."*
